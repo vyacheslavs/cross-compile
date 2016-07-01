@@ -10,6 +10,7 @@ set(MPFR_VERSION "mpfr-3.1.2" CACHE STRING "mpfr version")
 set(GMP_VERSION "gmp-6.0.0a" CACHE STRING "gmp version")
 set(MPC_VERSION "mpc-1.0.2" CACHE STRING "mpc version")
 set(ISL_VERSION "isl-0.12.2" CACHE STRING "isl version")
+set(CLOOG_VERSION "cloog-0.18.1" CACHE STRING "cloog version")
 
 add_subdirectory(binutils)
 add_subdirectory(linux-kernel)
