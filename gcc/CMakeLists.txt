@@ -60,6 +60,6 @@ add_custom_command(
 
 add_custom_target(
     make_gcc ALL
-    DEPENDS make_binutils make_mpfr make_gmp make_mpc make_isl make_cloog ${TARGET_DIR}/.install.done
+    DEPENDS make_binutils make_linux_kernel_headers make_mpfr make_gmp make_mpc make_isl make_cloog ${TARGET_DIR}/.install.done
     WORKING_DIRECTORY ${TARGET_DIR}
 )

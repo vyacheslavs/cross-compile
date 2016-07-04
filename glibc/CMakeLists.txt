@@ -54,10 +54,10 @@ add_custom_command(
 )
 
 add_custom_command(
-    OUTPUT ${TARGET_DIR}/.build.done
+    OUTPUT ${TARGET_DIR}/.build.csu.done
 
     COMMAND PATH=${INSTALL_PATH}/bin:$ENV{PATH} make csu/subdir_lib
-    COMMAND touch ${TARGET_DIR}/.build.done
+    COMMAND touch ${TARGET_DIR}/.build.csu.done
 
     WORKING_DIRECTORY ${BUILD_GLIBC_DIR}
     DEPENDS ${TARGET_DIR}/.boot-strap.done
@@ -68,14 +68,14 @@ add_custom_command(
     COMMAND PATH=${INSTALL_PATH}/bin:$ENV{PATH} make csu/install-lib
     COMMAND touch ${TARGET_DIR}/.install.csu.done
     WORKING_DIRECTORY ${BUILD_GLIBC_DIR}
-    DEPENDS ${TARGET_DIR}/.build.done
+    DEPENDS ${TARGET_DIR}/.build.csu.done
 )
 
 add_custom_command(
-    OUTPUT ${TARGET_DIR}/.install.done
+    OUTPUT ${TARGET_DIR}/.install.libc.done
 
     COMMAND PATH=${INSTALL_PATH}/bin:$ENV{PATH} ${CC_TARGET}-gcc -nostdlib -nostartfiles -shared -x c /dev/null -o ${INSTALL_PATH}/${CC_TARGET}/lib/libc.so
-    COMMAND touch ${TARGET_DIR}/.install.done
+    COMMAND touch ${TARGET_DIR}/.install.libc.done
 
     WORKING_DIRECTORY ${BUILD_GLIBC_DIR}
     DEPENDS ${TARGET_DIR}/.install.csu.done
@@ -86,7 +86,7 @@ add_custom_command(
     OUTPUT ${TARGET_DIR}/.make.stubs.done
     COMMAND touch ${INSTALL_PATH}/${CC_TARGET}/include/gnu/stubs.h
     COMMAND touch ${TARGET_DIR}/.make.stubs.done
-    DEPENDS ${TARGET_DIR}/.install.done
+    DEPENDS ${TARGET_DIR}/.install.libc.done
 )
 
 add_custom_command(
@@ -113,6 +113,6 @@ add_custom_command(
 
 add_custom_target(
     make_glibc ALL
-    DEPENDS make_gcc make_gcc_dirs ${TARGET_DIR}/.install.glibc.done
+    DEPENDS make_binutils make_linux_kernel_headers make_gcc make_gcc_dirs ${TARGET_DIR}/.install.glibc.done
     WORKING_DIRECTORY ${TARGET_DIR}
 )
