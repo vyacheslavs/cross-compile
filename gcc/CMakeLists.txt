@@ -31,7 +31,7 @@ add_custom_command(
 add_custom_command(
     OUTPUT ${TARGET_DIR}/.configure.done
 
-    COMMAND ${TARGET_DIR}/${TARGET_NAME}/configure --prefix=${INSTALL_PATH} --target=${CC_TARGET} --enable-languages=c,c++ --disable-multilib
+    COMMAND PATH=${INSTALL_PATH}/bin:$ENV{PATH} ${TARGET_DIR}/${TARGET_NAME}/configure --prefix=${INSTALL_PATH} --target=${CC_TARGET} --enable-languages=c,c++ --disable-multilib
     COMMAND touch ${TARGET_DIR}/.configure.done
 
     WORKING_DIRECTORY ${BUILD_TARGET_DIR}
@@ -41,7 +41,7 @@ add_custom_command(
 add_custom_command(
     OUTPUT ${TARGET_DIR}/.build.done
 
-    COMMAND make all-gcc
+    COMMAND PATH=${INSTALL_PATH}/bin:$ENV{PATH} make all-gcc
     COMMAND touch ${TARGET_DIR}/.build.done
 
     WORKING_DIRECTORY ${BUILD_TARGET_DIR}
@@ -51,7 +51,7 @@ add_custom_command(
 add_custom_command(
     OUTPUT ${TARGET_DIR}/.install.done
 
-    COMMAND make install-gcc
+    COMMAND PATH=${INSTALL_PATH}/bin:$ENV{PATH} make install-gcc
     COMMAND touch ${TARGET_DIR}/.install.done
 
     WORKING_DIRECTORY ${BUILD_TARGET_DIR}
@@ -60,6 +60,6 @@ add_custom_command(
 
 add_custom_target(
     make_gcc ALL
-    DEPENDS make_mpfr make_gmp make_mpc make_isl make_cloog ${TARGET_DIR}/.install.done
+    DEPENDS make_binutils make_mpfr make_gmp make_mpc make_isl make_cloog ${TARGET_DIR}/.install.done
     WORKING_DIRECTORY ${TARGET_DIR}
 )

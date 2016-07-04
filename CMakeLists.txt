@@ -11,14 +11,18 @@ set(GMP_VERSION "gmp-6.0.0a" CACHE STRING "gmp version")
 set(MPC_VERSION "mpc-1.0.2" CACHE STRING "mpc version")
 set(ISL_VERSION "isl-0.12.2" CACHE STRING "isl version")
 set(CLOOG_VERSION "cloog-0.18.1" CACHE STRING "cloog version")
+set(GLIBC_VERSION "glibc-2.23" CACHE STRING "glibc version")
+set(CC_MACHTYPE "x86_64-pc-linux-gnu" CACHE STRING "mach type")
 
 add_subdirectory(binutils)
 add_subdirectory(linux-kernel)
 add_subdirectory(gcc)
+add_subdirectory(glibc)
 
 add_custom_target(cross_compile ALL
     DEPENDS
         make_binutils
         make_linux_kernel_headers
         make_gcc
+        make_glibc
 )
