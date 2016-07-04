@@ -111,8 +111,17 @@ add_custom_command(
     WORKING_DIRECTORY ${BUILD_GLIBC_DIR}
 )
 
+add_custom_command(
+    OUTPUT ${TARGET_DIR}/.install.gcc-all.done
+    COMMAND PATH=${INSTALL_PATH}/bin:$ENV{PATH} make
+    COMMAND PATH=${INSTALL_PATH}/bin:$ENV{PATH} make install
+    COMMAND touch ${TARGET_DIR}/.install.gcc-all.done
+    DEPENDS ${TARGET_DIR}/.install.glibc.done
+    WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/gcc/build-gcc
+)
+
 add_custom_target(
     make_glibc ALL
-    DEPENDS make_binutils make_linux_kernel_headers make_gcc make_gcc_dirs ${TARGET_DIR}/.install.glibc.done
+    DEPENDS make_binutils make_linux_kernel_headers make_gcc make_gcc_dirs ${TARGET_DIR}/.install.gcc-all.done
     WORKING_DIRECTORY ${TARGET_DIR}
 )
